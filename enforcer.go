@@ -241,8 +241,10 @@ func (e *Enforcer) ClearPolicy() {
 
 // LoadPolicy reloads the policy from file/database.
 func (e *Enforcer) LoadPolicy() error {
+	tmpModel := e.model
 	e.model.ClearPolicy()
 	if err := e.adapter.LoadPolicy(e.model); err != nil && err.Error() != "invalid file path, file path cannot be empty" {
+		e.model = tmpModel
 		return err
 	}
 
